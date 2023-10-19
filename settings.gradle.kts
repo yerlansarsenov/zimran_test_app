@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "zimran_test_app"
 include(":app")
- 
+include(":ktor-client")
