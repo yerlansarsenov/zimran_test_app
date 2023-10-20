@@ -13,3 +13,4 @@
 .externalNativeBuild
 .cxx
 local.properties
+/ktor-client/src/main/java/com/borred/ktor_client/network/client_secret/
