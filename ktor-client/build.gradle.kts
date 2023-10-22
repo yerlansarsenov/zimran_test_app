@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.borred.ktor_client"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 21

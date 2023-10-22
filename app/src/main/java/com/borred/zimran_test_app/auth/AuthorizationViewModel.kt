@@ -1,6 +1,5 @@
 package com.borred.zimran_test_app.auth
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.borred.ktor_client.local.AccessTokenDataStore
@@ -13,15 +12,6 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-sealed interface ScreenState {
-    // splashScreen
-    object Loading : ScreenState
-
-    object NotAuthorized : ScreenState
-
-    object Main : ScreenState
-}
-
 @HiltViewModel
 class AuthorizationViewModel @Inject constructor(
     private val githubAuthApi: GithubAuthApi,
@@ -29,32 +19,32 @@ class AuthorizationViewModel @Inject constructor(
     private val accessTokenDataStore: AccessTokenDataStore
 ) : ViewModel() {
 
-    private val _screenState = MutableStateFlow<ScreenState>(ScreenState.Loading)
+    private val _screenState = MutableStateFlow<AuthScreenState>(AuthScreenState.Loading)
     val screenState = _screenState.asStateFlow()
 
     init {
         viewModelScope.launch {
             val accessToken = accessTokenDataStore.getAccessTokenFlow().firstOrNull()
             if (accessToken == null) {
-                _screenState.emit(ScreenState.NotAuthorized)
+                _screenState.emit(AuthScreenState.NotAuthorized)
             } else {
-                _screenState.emit(ScreenState.Main)
+                _screenState.emit(AuthScreenState.Main)
             }
         }
     }
 
     fun getAccessToken(code: String) {
         viewModelScope.launch {
-            _screenState.emit(ScreenState.Loading)
+            _screenState.emit(AuthScreenState.Loading)
             githubAuthApi.getAccessToken(
                 code = code
             ).onFailure {
                 it.printStackTrace()
                 errorsFlow.sendError(it)
-                _screenState.emit(ScreenState.NotAuthorized)
+                _screenState.emit(AuthScreenState.NotAuthorized)
             }.onSuccess { token ->
                 accessTokenDataStore.setAccessToken(token)
-                _screenState.emit(ScreenState.Main)
+                _screenState.emit(AuthScreenState.Main)
             }
         }
     }

@@ -5,13 +5,12 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.material3.Text
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.borred.zimran_test_app.auth.AuthScreenState
 import com.borred.zimran_test_app.auth.AuthorizationViewModel
-import com.borred.zimran_test_app.auth.ScreenState
 import com.borred.zimran_test_app.auth.authorizeViaGithub
 import com.borred.zimran_test_app.error.ErrorsFlow
 import com.borred.zimran_test_app.ui.LoadingView
@@ -33,13 +32,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Zimran_test_appTheme {
-                // A surface container using the 'background' color from the theme
                 when (viewModel.screenState.collectAsState().value) {
-                    ScreenState.Loading -> LoadingView()
-                    ScreenState.Main -> {
-                        Text(text = "Hello")
-                    }
-                    ScreenState.NotAuthorized -> {
+                    AuthScreenState.Loading -> LoadingView()
+                    AuthScreenState.Main -> MainScreen()
+                    AuthScreenState.NotAuthorized -> {
                         NotAuthorizedView(
                             authorizeViaGithub = ::authorizeViaGithub
                         )
