@@ -9,6 +9,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.viewModelScope
 import com.borred.zimran_test_app.auth.AuthScreenState
 import com.borred.zimran_test_app.auth.AuthorizationViewModel
 import com.borred.zimran_test_app.auth.authorizeViaGithub
@@ -34,7 +35,13 @@ class MainActivity : ComponentActivity() {
             Zimran_test_appTheme {
                 when (viewModel.screenState.collectAsState().value) {
                     AuthScreenState.Loading -> LoadingView()
-                    AuthScreenState.Main -> MainScreen()
+                    AuthScreenState.Main -> MainScreen(
+                        onShowError = {
+                            viewModel.viewModelScope.launch {
+                                errorsFlow.sendError(it)
+                            }
+                        }
+                    )
                     AuthScreenState.NotAuthorized -> {
                         NotAuthorizedView(
                             authorizeViaGithub = ::authorizeViaGithub
@@ -46,6 +53,7 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 errorsFlow.collectErrors { error ->
+                    error.printStackTrace()
                     Toast.makeText(this@MainActivity, error.message, Toast.LENGTH_SHORT).show()
                 }
             }

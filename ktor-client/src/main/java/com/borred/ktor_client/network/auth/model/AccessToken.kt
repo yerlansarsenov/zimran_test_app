@@ -1,4 +1,4 @@
-package com.borred.ktor_client.network.model
+package com.borred.ktor_client.network.auth.model
 
 import kotlinx.serialization.Serializable
 

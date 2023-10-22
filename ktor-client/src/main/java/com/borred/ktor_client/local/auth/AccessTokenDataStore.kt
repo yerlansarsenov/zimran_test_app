@@ -1,8 +1,8 @@
-package com.borred.ktor_client.local
+package com.borred.ktor_client.local.auth
 
 import android.content.Context
 import androidx.datastore.dataStore
-import com.borred.ktor_client.network.model.AccessToken
+import com.borred.ktor_client.network.auth.model.AccessToken
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

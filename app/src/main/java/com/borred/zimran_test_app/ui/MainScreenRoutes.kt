@@ -1,6 +1,6 @@
 package com.borred.zimran_test_app.ui
 
-import com.borred.zimran_test_app.repositories.model.GitRepository
+import com.borred.ktor_client.network.search.repos.model.GitRepository
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 

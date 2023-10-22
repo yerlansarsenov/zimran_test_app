@@ -85,6 +85,16 @@ dependencies {
 
     val nav_version = "2.7.4"
     implementation("androidx.navigation:navigation-compose:$nav_version")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0-beta01")
+
+    implementation("androidx.paging:paging-runtime-ktx:3.2.1")
+    implementation("androidx.paging:paging-compose:3.3.0-alpha02")
+
+    implementation("io.coil-kt:coil:2.4.0")
+    implementation("io.coil-kt:coil-compose:2.4.0")
 }
 
 kapt {

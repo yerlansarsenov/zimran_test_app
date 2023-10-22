@@ -1,7 +1,7 @@
-package com.borred.ktor_client.local
+package com.borred.ktor_client.local.auth
 
 import androidx.datastore.core.Serializer
-import com.borred.ktor_client.network.model.AccessToken
+import com.borred.ktor_client.network.auth.model.AccessToken
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json

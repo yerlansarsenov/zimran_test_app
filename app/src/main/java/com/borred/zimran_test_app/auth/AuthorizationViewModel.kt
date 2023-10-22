@@ -2,8 +2,8 @@ package com.borred.zimran_test_app.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.borred.ktor_client.local.AccessTokenDataStore
-import com.borred.ktor_client.network.GithubAuthApi
+import com.borred.ktor_client.local.auth.AccessTokenDataStore
+import com.borred.ktor_client.network.auth.GithubAuthApi
 import com.borred.zimran_test_app.error.ErrorsFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,7 +39,6 @@ class AuthorizationViewModel @Inject constructor(
             githubAuthApi.getAccessToken(
                 code = code
             ).onFailure {
-                it.printStackTrace()
                 errorsFlow.sendError(it)
                 _screenState.emit(AuthScreenState.NotAuthorized)
             }.onSuccess { token ->

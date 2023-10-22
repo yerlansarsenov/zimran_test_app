@@ -6,7 +6,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.borred.zimran_test_app.repositories.model.GitRepository
+import com.borred.ktor_client.network.search.repos.model.GitRepository
 
 @Composable
 fun UserReposScreen(
@@ -21,7 +21,9 @@ fun UserReposScreen(
             text = "User Repos"
         )
         Button(
-            onClick = { onGoToDetails(GitRepository(name = "sample")) }
+            onClick = {
+//                onGoToDetails(GitRepository(name = "sample"))
+            }
         ) {
             Text(
                 text = "His Repos Details"

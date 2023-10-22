@@ -9,10 +9,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.borred.ktor_client.network.search.repos.model.GitRepository
 import com.borred.zimran_test_app.repodetails.RepoDetailsScreen
 import com.borred.zimran_test_app.repositories.RepositoriesHistoryScreen
 import com.borred.zimran_test_app.repositories.SearchRepositoriesScreen
-import com.borred.zimran_test_app.repositories.model.GitRepository
 import com.borred.zimran_test_app.search.SearchScreen
 import com.borred.zimran_test_app.ui.MainScreenRoutes
 import com.borred.zimran_test_app.userrepos.UserReposScreen
@@ -21,18 +21,21 @@ import com.borred.zimran_test_app.users.UsersHistoryScreen
 import kotlinx.serialization.json.Json
 
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    onShowError: (Throwable) -> Unit
+) {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
         startDestination = MainScreenRoutes.Search.route,
     ) {
-        mainScreenNavGraph(navController)
+        mainScreenNavGraph(navController, onShowError)
     }
 }
 
 private fun NavGraphBuilder.mainScreenNavGraph(
-    navController: NavHostController
+    navController: NavHostController,
+    onShowError: (Throwable) -> Unit
 ) {
     composable(
         route = MainScreenRoutes.Search.route,
@@ -80,7 +83,8 @@ private fun NavGraphBuilder.mainScreenNavGraph(
             },
             onGoToHistory = {
                 navController.navigate(MainScreenRoutes.RepoHistory.route)
-            }
+            },
+            onShowError = onShowError
         )
     }
 

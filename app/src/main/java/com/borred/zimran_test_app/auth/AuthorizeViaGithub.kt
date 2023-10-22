@@ -3,7 +3,7 @@ package com.borred.zimran_test_app.auth
 import android.app.Activity
 import android.content.Intent
 import androidx.core.net.toUri
-import com.borred.ktor_client.network.CLIENT_ID
+import com.borred.ktor_client.network.auth.CLIENT_ID
 
 // Github OAuth app client ID
 private const val LOGIN_URL = "https://github.com/login/oauth/authorize"
