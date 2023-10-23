@@ -98,6 +98,8 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.4.0")
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
 }
 
 kapt {

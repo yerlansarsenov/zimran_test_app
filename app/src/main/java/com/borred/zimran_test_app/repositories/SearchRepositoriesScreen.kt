@@ -17,6 +17,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Divider
@@ -28,7 +29,9 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -44,11 +47,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import com.borred.ktor_client.network.search.repos.model.GitRepository
+import com.borred.ktor_client.network.search.repos.model.ReposSort
 import com.borred.ktor_client.network.search.users.model.GitUser
 import com.borred.zimran_test_app.prettyNumber
 import com.borred.zimran_test_app.ui.DisplayAndHeadline
 import com.borred.zimran_test_app.ui.Header
 import com.borred.zimran_test_app.ui.PagingLazyColumn
+import com.borred.zimran_test_app.ui.actiondialog.ActionDialog
+import com.borred.zimran_test_app.ui.actiondialog.ActionItem
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.datetime.Clock
 import kotlin.time.Duration.Companion.days
 
@@ -61,13 +69,18 @@ fun SearchRepositoriesScreen(
     modifier: Modifier = Modifier
 ) {
     val viewModel = hiltViewModel<SearchRepositoriesViewModel>()
+    var isSortDialogVisible by remember {
+        mutableStateOf(false)
+    }
     Column(
         modifier = modifier.fillMaxSize()
     ) {
         Header(
             title = "Search for repositories",
             actionButtonIcon = Icons.Default.Refresh,
-            onClickAction = onGoToHistory
+            onClickAction = onGoToHistory,
+            secondaryActionButtonIcon = Icons.Default.Settings,
+            onClickSecondaryAction = { isSortDialogVisible = true }
         )
         val searchText by viewModel.searchTextFlow.collectAsState()
         val keyboard = LocalSoftwareKeyboardController.current
@@ -104,6 +117,12 @@ fun SearchRepositoriesScreen(
             }
         }
     }
+    SortKindDialog(
+        isVisible = isSortDialogVisible,
+        chosenOne = viewModel.sortByFlow.collectAsState().value,
+        onChoose = viewModel::setSortBy,
+        onDismiss = { isSortDialogVisible = false }
+    )
 }
 
 @Composable
@@ -198,6 +217,30 @@ private fun CountAndIcon(
             contentDescription = "stars",
             tint = tint,
             modifier = Modifier.size(16.dp)
+        )
+    }
+}
+
+@Composable
+fun SortKindDialog(
+    isVisible: Boolean,
+    chosenOne: ReposSort,
+    onChoose: (ReposSort) -> Unit,
+    onDismiss: () -> Unit
+) {
+    if (isVisible) {
+        ActionDialog(
+            actionItems = remember(chosenOne) {
+                ReposSort.values().map {
+                    ActionItem(
+                        text = it.value,
+                        chosen = chosenOne == it,
+                        actionTextColor = Color.Cyan,
+                        action = { onChoose(it) }
+                    )
+                }.toImmutableList()
+            },
+            onDismiss = onDismiss
         )
     }
 }
