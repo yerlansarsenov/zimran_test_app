@@ -91,7 +91,7 @@ fun SearchRepositoriesScreen(
             )
         } else {
             PagingLazyColumn(
-                paginatedListItems = viewModel.gitReposPaging.collectAsLazyPagingItems(),
+                paginatedListItems = viewModel.gitReposPaging.value.collectAsLazyPagingItems(),
                 onShowError = onShowError
             ) { item ->
                 GitRepositoryView(
