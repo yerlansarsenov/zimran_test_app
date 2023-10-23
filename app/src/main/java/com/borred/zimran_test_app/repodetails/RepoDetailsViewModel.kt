@@ -36,7 +36,6 @@ class RepoDetailsViewModel @Inject constructor(
 
     init {
         viewModelScope.safeLaunch {
-            delay(2000)
             repositoryApi.getLanguagesOfRepo(
                 login = gitRepository.owner.login,
                 repoName = gitRepository.name
