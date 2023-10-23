@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.borred.ktor_client.network.search.repos.SearchRepositoryApi
 import com.borred.ktor_client.network.search.repos.model.GitRepository
 import com.borred.ktor_client.network.search.repos.model.ReposSort
@@ -80,5 +81,6 @@ class SearchRepositoriesViewModel
             )
         }.flow
             .flowOn(Dispatchers.IO)
+            .cachedIn(viewModelScope)
     }
 }
