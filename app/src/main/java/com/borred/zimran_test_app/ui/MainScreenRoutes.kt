@@ -1,5 +1,6 @@
 package com.borred.zimran_test_app.ui
 
+import android.util.Log
 import com.borred.ktor_client.network.search.repos.model.GitRepository
 import com.borred.ktor_client.network.search.users.model.GitUser
 import kotlinx.serialization.encodeToString
@@ -27,7 +28,9 @@ sealed class MainScreenRoutes(val route: String) {
     object RepoDetails : MainScreenRoutes("repositories/details?repo={repo}") {
 
         fun destinationRoute(repo: GitRepository): String {
-            return route.replace("{repo}", Json.encodeToString(repo))
+            val str = Json.encodeToString(repo)
+            Log.e("HERE!!", "destinationRoute: str = $str")
+            return route.replace("{repo}", str)
         }
     }
 }

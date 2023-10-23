@@ -1,5 +1,6 @@
 package com.borred.zimran_test_app
 
+import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
@@ -79,6 +80,7 @@ private fun NavGraphBuilder.mainScreenNavGraph(
     ) {
         SearchRepositoriesScreen(
             onGoToDetails = { repo ->
+                Log.e("HERE!!", "nav from SearchRepositoriesScreen: repo = $repo")
                 navController.navigate(MainScreenRoutes.RepoDetails.destinationRoute(repo))
             },
             onGoToHistory = {
@@ -128,10 +130,9 @@ private fun NavGraphBuilder.mainScreenNavGraph(
             )
         }
     ) { backStackEntry ->
-        val repoJson = backStackEntry.arguments?.getString("repo") ?: return@composable
-        val gitRepository = Json.decodeFromString<GitRepository>(repoJson)
+//        val repoJson = backStackEntry.arguments?.getString("repo") ?: return@composable
+//        val gitRepository = Json.decodeFromString<GitRepository>(repoJson)
         RepoDetailsScreen(
-            gitRepository = gitRepository,
             onGoToUserRepos = {
                 navController.navigate(MainScreenRoutes.UserRepos.destinationRoute(it))
             }

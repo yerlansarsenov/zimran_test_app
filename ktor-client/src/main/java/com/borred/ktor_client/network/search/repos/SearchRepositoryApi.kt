@@ -1,5 +1,6 @@
 package com.borred.ktor_client.network.search.repos
 
+import android.util.Log
 import com.borred.ktor_client.local.auth.AccessTokenDataStore
 import com.borred.ktor_client.network.SEARCH_CLIENT
 import com.borred.ktor_client.network.search.repos.model.GitRepository
@@ -13,6 +14,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
+import io.ktor.client.statement.bodyAsText
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonObject
@@ -35,6 +37,11 @@ interface SearchRepositoryApi {
         page: Int, // start with 1
         perPage: Int = 30
     ): Result<List<GitRepository>>
+
+    suspend fun getLanguagesOfRepo(
+        login: String,
+        repoName: String
+    ): Result<Map<String, Int>>
 }
 
 private const val REQUIRES_AUTH_CODE = 401
@@ -86,19 +93,26 @@ constructor(
         }
     }
 
-    private fun getLanguages(): Map<String, Int> {
-        val languagesJson = Json.parseToJsonElement(
-            """
-                {
-                  "Assembly": 53960,
-                  "C": 8308
-                }
-            """.trimIndent()
-        )
-        return languagesJson.jsonObject.map {
-            val language = it.key
-            val count = it.value.jsonPrimitive.int
-            language to count
-        }.toMap()
+    override suspend fun getLanguagesOfRepo(
+        login: String,
+        repoName: String
+    ): Result<Map<String, Int>> {
+        return kotlin.runCatching {
+            val responseJson = httpClient.get(
+                urlString = "repos/$login/$repoName/languages"
+            ) {
+                setToken(tokenDataStore = tokenDataStore)
+            }.bodyAsText()
+            Log.e("HERE!!", "getLanguagesOfRepo: responseJson = $responseJson")
+            val map = Json.parseToJsonElement(
+                responseJson
+            ).jsonObject.map {
+                val language = it.key
+                val count = it.value.jsonPrimitive.int
+                language to count
+            }.toMap()
+            Log.e("HERE!!", "getLanguagesOfRepo: map = $map")
+            map
+        }
     }
 }

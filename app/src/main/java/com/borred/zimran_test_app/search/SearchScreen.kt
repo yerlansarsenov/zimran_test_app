@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.borred.zimran_test_app.ui.Header
 
 @Composable
 fun SearchScreen(
@@ -16,19 +17,24 @@ fun SearchScreen(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.SpaceAround,
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = modifier.fillMaxSize()
     ) {
-        Button(
-            onClick = onGoToRepos
+        Header(title = "Search among...")
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.SpaceAround,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Repositories")
-        }
-        Button(
-            onClick = onGoToUsers
-        ) {
-            Text(text = "Users")
+            Button(
+                onClick = onGoToRepos
+            ) {
+                Text(text = "Repositories")
+            }
+            Button(
+                onClick = onGoToUsers
+            ) {
+                Text(text = "Users")
+            }
         }
     }
 }
