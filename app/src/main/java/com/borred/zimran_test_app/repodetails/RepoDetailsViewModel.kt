@@ -11,6 +11,7 @@ import com.borred.ktor_client.network.search.repos.SearchRepositoryApi
 import com.borred.ktor_client.network.search.repos.model.GitRepository
 import com.borred.zimran_test_app.error.ErrorsFlow
 import com.borred.zimran_test_app.safeLaunch
+import com.borred.zimran_test_app.ui.SpecialCharsMap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.toImmutableMap
@@ -28,7 +29,11 @@ class RepoDetailsViewModel @Inject constructor(
     private val repoJson = savedStateHandle.get<String>("repo") ?: ""
     val gitRepository = repoJson.let {
         Log.e("HERE!!", "viewModel: it = $it")
-        Json.decodeFromString<GitRepository>(it)
+        var str = it
+        SpecialCharsMap.forEach { (value, key) ->
+            str = str.replace(value, key)
+        }
+        Json.decodeFromString<GitRepository>(str)
     }
 
     private val _langsState = mutableStateOf<LangState>(LangState.Loading)

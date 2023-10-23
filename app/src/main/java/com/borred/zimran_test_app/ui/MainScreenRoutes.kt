@@ -6,6 +6,11 @@ import com.borred.ktor_client.network.search.users.model.GitUser
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
+internal val SpecialCharsMap = mapOf<String, String>(
+    "#" to "§sharp§",
+    "&" to "§amp§"
+)
+
 sealed class MainScreenRoutes(val route: String) {
 
     object Search : MainScreenRoutes("search")
@@ -17,7 +22,11 @@ sealed class MainScreenRoutes(val route: String) {
     object UserRepos : MainScreenRoutes("user/repositories?user={user}") {
 
         fun destinationRoute(user: GitUser): String {
-            return route.replace("{user}", Json.encodeToString(user))
+            var str = Json.encodeToString(user)
+            SpecialCharsMap.forEach {
+                str = str.replace(it.key, it.value)
+            }
+            return route.replace("{user}", str)
         }
     }
 
@@ -28,7 +37,10 @@ sealed class MainScreenRoutes(val route: String) {
     object RepoDetails : MainScreenRoutes("repositories/details?repo={repo}") {
 
         fun destinationRoute(repo: GitRepository): String {
-            val str = Json.encodeToString(repo)
+            var str = Json.encodeToString(repo)
+            SpecialCharsMap.forEach {
+                str = str.replace(it.key, it.value)
+            }
             Log.e("HERE!!", "destinationRoute: str = $str")
             return route.replace("{repo}", str)
         }
