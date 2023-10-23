@@ -136,7 +136,6 @@ private fun GitRepositoryView(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(IntrinsicSize.Min)
                 .padding(vertical = 8.dp)
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -149,10 +148,8 @@ private fun GitRepositoryView(
                     .size(70.dp)
             )
             Column(
-                verticalArrangement = Arrangement.SpaceAround,
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .weight(1f)
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier.weight(1f)
             ) {
                 Text(
                     text = item.name,

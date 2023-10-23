@@ -1,5 +1,6 @@
 package com.borred.zimran_test_app.ui.actiondialog
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -29,8 +30,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.borred.zimran_test_app.ui.Shadow
-import com.borred.zimran_test_app.ui.coloredShadows
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -85,14 +84,11 @@ private fun ActionSheet(
     ) {
         Column(
             modifier = Modifier
-                .clip(RoundedCornerShape(12.dp))
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter)
                 .padding(start = 16.dp, end = 16.dp, bottom = 24.dp, top = 24.dp)
-                .coloredShadows(
-                    Shadow(alpha = 0.16F, offsetY = 8.dp, cornersRadius = 12.dp),
-                    Shadow(alpha = 0.08F, cornersRadius = 12.dp)
-                )
+                .clip(RoundedCornerShape(12.dp))
+                .background(Color.LightGray)
         ) {
             if (title != null) {
                 Text(
