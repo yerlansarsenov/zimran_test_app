@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.borred.ktor_client.network.search.repos.model.GitRepository
+import com.borred.ktor_client.network.search.users.model.GitUser
 import com.borred.zimran_test_app.repodetails.RepoDetailsScreen
 import com.borred.zimran_test_app.repositories.RepositoriesHistoryScreen
 import com.borred.zimran_test_app.repositories.SearchRepositoriesScreen
@@ -104,8 +105,8 @@ private fun NavGraphBuilder.mainScreenNavGraph(
         }
     ) {
         SearchUsersScreen(
-            onGoToUserRepos = { id ->
-                navController.navigate(MainScreenRoutes.UserRepos.destinationRoute(id))
+            onGoToUserRepos = {
+                navController.navigate(MainScreenRoutes.UserRepos.destinationRoute(it))
             },
             onGoToHistory = {
                 navController.navigate(MainScreenRoutes.UsersHistory.route)
@@ -132,8 +133,8 @@ private fun NavGraphBuilder.mainScreenNavGraph(
         val gitRepository = Json.decodeFromString<GitRepository>(repoJson)
         RepoDetailsScreen(
             gitRepository = gitRepository,
-            onGoToUserRepos = { id ->
-                navController.navigate(MainScreenRoutes.UserRepos.destinationRoute(id))
+            onGoToUserRepos = {
+                navController.navigate(MainScreenRoutes.UserRepos.destinationRoute(it))
             }
         )
     }
@@ -153,9 +154,10 @@ private fun NavGraphBuilder.mainScreenNavGraph(
             )
         }
     ) { backStackEntry ->
-        val userId = backStackEntry.arguments?.getInt("id") ?: return@composable
+        val user = backStackEntry.arguments?.getString("user") ?: return@composable
+        val gitUser = Json.decodeFromString<GitUser>(user)
         UserReposScreen(
-            userId = userId,
+            user = gitUser,
             onGoToDetails = { repo ->
                 navController.navigate(MainScreenRoutes.RepoDetails.destinationRoute(repo))
             }
@@ -200,8 +202,8 @@ private fun NavGraphBuilder.mainScreenNavGraph(
         }
     ) {
         UsersHistoryScreen(
-            onGoToUserRepos = { id ->
-                navController.navigate(MainScreenRoutes.UserRepos.destinationRoute(id))
+            onGoToUserRepos = {
+                navController.navigate(MainScreenRoutes.UserRepos.destinationRoute(it))
             }
         )
     }

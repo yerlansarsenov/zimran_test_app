@@ -6,10 +6,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.borred.ktor_client.network.search.users.model.GitUser
 
 @Composable
 fun SearchUsersScreen(
-    onGoToUserRepos: (id: Int) -> Unit,
+    onGoToUserRepos: (GitUser) -> Unit,
     onGoToHistory: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -20,7 +21,9 @@ fun SearchUsersScreen(
             text = "Search Users"
         )
         Button(
-            onClick = { onGoToUserRepos(1) }
+            onClick = {
+//                onGoToUserRepos(1)
+            }
         ) {
             Text(
                 text = "User Repos"
