@@ -2,9 +2,12 @@ package com.borred.ktor_client.network.search.repos
 
 import com.borred.ktor_client.local.auth.AccessTokenDataStore
 import com.borred.ktor_client.network.SEARCH_CLIENT
+import com.borred.ktor_client.network.search.repos.model.GitRepository
+import com.borred.ktor_client.network.search.repos.model.GitRepositoryDTO
 import com.borred.ktor_client.network.search.repos.model.ReposSort
 import com.borred.ktor_client.network.search.repos.model.SearchReposResponse
 import com.borred.ktor_client.network.search.repos.model.SearchReposResponseDTO
+import com.borred.ktor_client.network.search.repos.model.safeMap
 import com.borred.ktor_client.network.search.setToken
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -25,6 +28,13 @@ interface SearchRepositoryApi {
         page: Int, // start with 1
         perPage: Int = 30
     ) : Result<SearchReposResponse>
+
+    suspend fun getReposOfUserByLogin(
+        login: String,
+        sort: ReposSort,
+        page: Int, // start with 1
+        perPage: Int = 30
+    ): Result<List<GitRepository>>
 }
 
 private const val REQUIRES_AUTH_CODE = 401
@@ -53,6 +63,26 @@ constructor(
                 parameter("per_page", perPage)
                 parameter("sort", sort.value)
             }.body<SearchReposResponseDTO>().toDomain()
+        }
+    }
+
+    override suspend fun getReposOfUserByLogin(
+        login: String,
+        sort: ReposSort,
+        page: Int, // start with 1
+        perPage: Int
+    ): Result<List<GitRepository>> {
+        return kotlin.runCatching {
+            httpClient.get(
+                urlString = "users/$login/repos"
+            ) {
+                setToken(tokenDataStore = tokenDataStore)
+                parameter("page", page)
+                parameter("per_page", perPage)
+                parameter("sort", sort.value)
+            }.body<List<GitRepositoryDTO>>().safeMap {
+                it.toDomain()
+            }
         }
     }
 

@@ -10,7 +10,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.borred.ktor_client.network.search.repos.model.GitRepository
-import com.borred.ktor_client.network.search.users.model.GitUser
 import com.borred.zimran_test_app.repodetails.RepoDetailsScreen
 import com.borred.zimran_test_app.repositories.RepositoriesHistoryScreen
 import com.borred.zimran_test_app.repositories.SearchRepositoriesScreen
@@ -154,10 +153,10 @@ private fun NavGraphBuilder.mainScreenNavGraph(
             )
         }
     ) { backStackEntry ->
-        val user = backStackEntry.arguments?.getString("user") ?: return@composable
-        val gitUser = Json.decodeFromString<GitUser>(user)
+//        val user = backStackEntry.arguments?.getString("user") ?: return@composable
+//        val gitUser = Json.decodeFromString<GitUser>(user)
         UserReposScreen(
-            user = gitUser,
+            onShowError = onShowError,
             onGoToDetails = { repo ->
                 navController.navigate(MainScreenRoutes.RepoDetails.destinationRoute(repo))
             }

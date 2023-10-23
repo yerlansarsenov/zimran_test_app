@@ -51,8 +51,10 @@ import com.borred.ktor_client.network.search.repos.model.ReposSort
 import com.borred.ktor_client.network.search.users.model.GitUser
 import com.borred.zimran_test_app.prettyNumber
 import com.borred.zimran_test_app.ui.DisplayAndHeadline
+import com.borred.zimran_test_app.ui.GitRepositoryView
 import com.borred.zimran_test_app.ui.Header
 import com.borred.zimran_test_app.ui.PagingLazyColumn
+import com.borred.zimran_test_app.ui.SortKindDialog
 import com.borred.zimran_test_app.ui.actiondialog.ActionDialog
 import com.borred.zimran_test_app.ui.actiondialog.ActionItem
 import kotlinx.collections.immutable.persistentListOf
@@ -123,123 +125,6 @@ fun SearchRepositoriesScreen(
         onChoose = viewModel::setSortBy,
         onDismiss = { isSortDialogVisible = false }
     )
-}
-
-@Composable
-private fun GitRepositoryView(
-    item: GitRepository,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            AsyncImage(
-                model = item.owner.avatarUrl,
-                contentDescription = null,
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .size(70.dp)
-            )
-            Column(
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(
-                    text = item.name,
-                    style = MaterialTheme.typography.titleLarge
-                )
-                Text(
-                    text = item.owner.login,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                    Text(
-                        text = remember(item) {
-                            item.updatedAt.format()
-                        },
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                }
-            }
-            Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalAlignment = Alignment.End
-            ) {
-                CountAndIcon(
-                    count = item.stargazersCount,
-                    icon = Icons.Default.Star,
-                    tint = Color.Yellow
-                )
-                CountAndIcon(
-                    count = item.forksCount,
-                    icon = Icons.Default.Share,
-                    tint = Color.DarkGray
-                )
-                CountAndIcon(
-                    count = item.openIssuesCount,
-                    icon = Icons.Default.ExitToApp,
-                    tint = Color.Red
-                )
-            }
-        }
-        Divider()
-    }
-}
-
-@Composable
-private fun CountAndIcon(
-    count: Int,
-    icon: ImageVector,
-    tint: Color,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        Text(
-            text = count.prettyNumber(),
-            style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier.alignByBaseline()
-        )
-        Icon(
-            painter = rememberVectorPainter(icon),
-            contentDescription = "stars",
-            tint = tint,
-            modifier = Modifier.size(16.dp)
-        )
-    }
-}
-
-@Composable
-fun SortKindDialog(
-    isVisible: Boolean,
-    chosenOne: ReposSort,
-    onChoose: (ReposSort) -> Unit,
-    onDismiss: () -> Unit
-) {
-    if (isVisible) {
-        ActionDialog(
-            actionItems = remember(chosenOne) {
-                ReposSort.values().map {
-                    ActionItem(
-                        text = it.value,
-                        chosen = chosenOne == it,
-                        actionTextColor = Color.Cyan,
-                        action = { onChoose(it) }
-                    )
-                }.toImmutableList()
-            },
-            onDismiss = onDismiss
-        )
-    }
 }
 
 @Preview
