@@ -35,6 +35,7 @@ fun DisplayAndHeadline(
         Text(
             text = headline,
             style = MaterialTheme.typography.headlineMedium,
+            color = MaterialTheme.colorScheme.secondary,
             textAlign = TextAlign.Center
         )
     }

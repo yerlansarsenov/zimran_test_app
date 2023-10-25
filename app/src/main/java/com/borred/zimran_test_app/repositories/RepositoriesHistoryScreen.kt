@@ -3,6 +3,7 @@ package com.borred.zimran_test_app.repositories
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,7 +18,8 @@ fun RepositoriesHistoryScreen(
         modifier = modifier.fillMaxSize()
     ) {
         Text(
-            text = "Search Repos History"
+            text = "Search Repos History",
+            color = MaterialTheme.colorScheme.primary
         )
         Button(
             onClick = {
@@ -27,7 +29,8 @@ fun RepositoriesHistoryScreen(
             }
         ) {
             Text(
-                text = "Details"
+                text = "Details",
+                color = MaterialTheme.colorScheme.primary
             )
         }
     }

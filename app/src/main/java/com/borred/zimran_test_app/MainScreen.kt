@@ -4,7 +4,11 @@ import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.background
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -19,6 +23,7 @@ import com.borred.zimran_test_app.ui.MainScreenRoutes
 import com.borred.zimran_test_app.userrepos.UserReposScreen
 import com.borred.zimran_test_app.users.SearchUsersScreen
 import com.borred.zimran_test_app.users.UsersHistoryScreen
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.serialization.json.Json
 
 @Composable
@@ -26,9 +31,17 @@ fun MainScreen(
     onShowError: (Throwable) -> Unit
 ) {
     val navController = rememberNavController()
+    val uiController = rememberSystemUiController()
+    val backgroundColor = MaterialTheme.colorScheme.background
+    LaunchedEffect(backgroundColor, uiController) {
+        uiController.setSystemBarsColor(backgroundColor)
+    }
     NavHost(
         navController = navController,
         startDestination = MainScreenRoutes.Search.route,
+        modifier = Modifier.background(
+            MaterialTheme.colorScheme.background
+        )
     ) {
         mainScreenNavGraph(navController, onShowError)
     }
@@ -111,7 +124,8 @@ private fun NavGraphBuilder.mainScreenNavGraph(
             },
             onGoToHistory = {
                 navController.navigate(MainScreenRoutes.UsersHistory.route)
-            }
+            },
+            onShowError = onShowError
         )
     }
 

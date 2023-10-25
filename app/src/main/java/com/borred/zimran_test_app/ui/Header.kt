@@ -95,6 +95,7 @@ private fun HeaderImpl(
         Text(
             text = title,
             style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.primary,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.weight(1f)
@@ -105,7 +106,8 @@ private fun HeaderImpl(
                 contentDescription = "action button",
                 modifier = Modifier
                     .size(36.dp)
-                    .clickable(onClick = it.onClick)
+                    .clickable(onClick = it.onClick),
+                tint = MaterialTheme.colorScheme.primary
             )
         }
         secondActionButton?.let {
@@ -115,7 +117,8 @@ private fun HeaderImpl(
                 contentDescription = "action button",
                 modifier = Modifier
                     .size(36.dp)
-                    .clickable(onClick = it.onClick)
+                    .clickable(onClick = it.onClick),
+                tint = MaterialTheme.colorScheme.primary
             )
         }
     }

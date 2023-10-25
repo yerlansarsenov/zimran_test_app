@@ -57,18 +57,21 @@ fun GitRepositoryView(
             ) {
                 Text(
                     text = item.name,
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.primary
                 )
                 Text(
                     text = item.owner.login,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.primary
                 )
                 Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                     Text(
                         text = remember(item) {
                             item.updatedAt.format()
                         },
-                        style = MaterialTheme.typography.bodySmall
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.primary
                     )
                 }
             }
@@ -111,7 +114,8 @@ private fun CountAndIcon(
         Text(
             text = count.prettyNumber(),
             style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier.alignByBaseline()
+            modifier = Modifier.alignByBaseline(),
+            color = MaterialTheme.colorScheme.primary
         )
         Icon(
             painter = rememberVectorPainter(icon),

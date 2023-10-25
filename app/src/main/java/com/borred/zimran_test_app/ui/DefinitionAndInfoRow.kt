@@ -25,12 +25,13 @@ fun DefinitionAndInfoRow(
             text = "$definition: ",
             style = MaterialTheme.typography.titleLarge,
             modifier = Modifier.alignByBaseline(),
-            color = Color.LightGray
+            color = MaterialTheme.colorScheme.secondary
         )
         Text(
             text = info,
             style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.alignByBaseline()
+            modifier = Modifier.alignByBaseline(),
+            color = MaterialTheme.colorScheme.primary
         )
     }
 }

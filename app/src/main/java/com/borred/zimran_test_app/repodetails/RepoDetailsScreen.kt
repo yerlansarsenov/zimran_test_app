@@ -58,7 +58,7 @@ fun RepoDetailsScreen(
         Header(
             title = gitRepository.name
         )
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         val authorCardShape = RoundedCornerShape(16.dp)
         Box(
             modifier = Modifier
@@ -77,7 +77,7 @@ fun RepoDetailsScreen(
             Text(
                 text = it,
                 style = MaterialTheme.typography.headlineSmall,
-                color = Color.DarkGray,
+                color = MaterialTheme.colorScheme.secondary,
                 modifier = Modifier.padding(horizontal = 4.dp)
             )
         }
@@ -123,18 +123,24 @@ private fun LangsState(
         when (langsState) {
             LangState.Empty -> {
                 Text(
-                    text = "No data",
+                    text = "No data about languages used",
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
-                        .padding(vertical = 20.dp)
+                        .padding(vertical = 20.dp),
+                    color = MaterialTheme.colorScheme.tertiary
                 )
             }
             is LangState.Loaded -> {
                 Text(
                     text = "Languages used:",
                     modifier = Modifier
+                        .padding(top = 16.dp),
+                    color = MaterialTheme.colorScheme.primary
                 )
-                LangStateLoaded(map = langsState.map)
+                LangStateLoaded(
+                    map = langsState.map,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
             }
             LangState.Loading -> {
                 val color by animateShimmerColor()
@@ -166,7 +172,8 @@ private fun LangStateLoaded(
                     Text(
                         text = name,
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
+                        color = MaterialTheme.colorScheme.primary
                     )
                 }
                 Box {
