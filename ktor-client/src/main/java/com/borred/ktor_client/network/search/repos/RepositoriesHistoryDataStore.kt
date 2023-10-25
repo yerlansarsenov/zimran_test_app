@@ -38,4 +38,8 @@ class RepositoriesHistoryDataStore @Inject constructor(
     }
 
     fun getSearchHistoryFlow(): Flow<List<GitRepository>> = searchHistoryFlow
+
+    suspend fun delete() {
+        setSearchHistory(emptyList())
+    }
 }
