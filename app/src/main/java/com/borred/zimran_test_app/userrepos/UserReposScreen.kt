@@ -46,7 +46,10 @@ fun UserReposScreen(
             GitRepositoryView(
                 item = item,
                 modifier = Modifier
-                    .clickable { onGoToDetails(item) }
+                    .clickable {
+                        viewModel.addToHistory(item)
+                        onGoToDetails(item)
+                    }
             )
         }
     }

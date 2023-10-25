@@ -33,7 +33,7 @@ class UsersHistoryDataStore @Inject constructor(
 
     private suspend fun setSearchHistory(list: List<GitUser>) {
         applicationContext.searchHistoryDataStore.updateData {
-            list
+            list.distinct()
         }
     }
 

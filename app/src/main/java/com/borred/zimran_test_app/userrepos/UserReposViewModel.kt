@@ -11,9 +11,11 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.borred.ktor_client.network.search.repos.RepositoriesHistoryDataStore
 import com.borred.ktor_client.network.search.repos.SearchRepositoryApi
 import com.borred.ktor_client.network.search.repos.model.ReposSort
 import com.borred.zimran_test_app.repositories.model.GitRepositoryUI
+import com.borred.zimran_test_app.repositories.model.toDomain
 import com.borred.zimran_test_app.safeLaunch
 import com.borred.zimran_test_app.ui.SpecialCharsMap
 import com.borred.zimran_test_app.users.model.GitUserUI
@@ -32,7 +34,8 @@ import javax.inject.Inject
 @HiltViewModel
 class UserReposViewModel @Inject constructor(
     private val repositoryApi: SearchRepositoryApi,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    private val dataStore: RepositoriesHistoryDataStore
 ) : ViewModel() {
 
     val user = savedStateHandle.get<String>("user")?.let {
@@ -91,5 +94,11 @@ class UserReposViewModel @Inject constructor(
         }.flow
             .flowOn(Dispatchers.IO)
             .cachedIn(viewModelScope)
+    }
+
+    fun addToHistory(item: GitRepositoryUI) {
+        viewModelScope.safeLaunch {
+            dataStore.addToHistory(item.toDomain())
+        }
     }
 }

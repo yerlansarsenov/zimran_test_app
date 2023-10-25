@@ -13,6 +13,7 @@ import com.borred.zimran_test_app.safeLaunch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
 
@@ -27,13 +28,14 @@ class RepositoriesHistoryViewModel
 
     init {
         viewModelScope.safeLaunch {
-            val list = dataStore.getSearchHistoryFlow().firstOrNull()
-            if (list == null || list.isEmpty()) {
-                _historyListState.value = HistoryState.Empty
-                return@safeLaunch
+            dataStore.getSearchHistoryFlow().collect { list ->
+                if (list.isEmpty()) {
+                    _historyListState.value = HistoryState.Empty
+                    return@collect
+                }
+                val lastTwenty = list.takeLast(20).map { it.toUI() }
+                _historyListState.value = HistoryState.List(lastTwenty.toImmutableList())
             }
-            val lastTwenty = list.takeLast(20).map { it.toUI() }
-            _historyListState.value = HistoryState.List(lastTwenty.toImmutableList())
         }
     }
 
