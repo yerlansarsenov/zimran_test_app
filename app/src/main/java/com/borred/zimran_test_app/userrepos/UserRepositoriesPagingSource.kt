@@ -37,7 +37,7 @@ class UserRepositoriesPagingSource(
                 } else {
                     page - 1
                 },
-                nextKey = if (items.isEmpty()) {
+                nextKey = if (items.size < params.loadSize) {
                     null
                 } else {
                     page + 1
