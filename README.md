@@ -1,12 +1,12 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[login](gifs%2Fzimran_login.mp4)
+https://github.com/yerlansarsenov/zimran_test_app/blob/main/gifs/zimran_login.mp4
 
-[searching repositories](gifs%2Fzimran_search_repo.mp4)
+https://github.com/yerlansarsenov/zimran_test_app/blob/main/gifs/zimran_search_repo.mp4
 
-[searching users](gifs%2Fzimran_search_users.mp4)
+https://github.com/yerlansarsenov/zimran_test_app/blob/main/gifs/zimran_search_users.mp4
 
-[sorting repositores and showing history](gifs%2Fzimran_repo_sorting_n_history.mp4)
+https://github.com/yerlansarsenov/zimran_test_app/blob/main/gifs/zimran_repo_sorting_n_history.mp4
 
-[sorting users and showing history](gifs%2Fzimran_repo_sorting_n_history.mp4)
+https://github.com/yerlansarsenov/zimran_test_app/blob/main/gifs/zimran_sorting_uesrs_n_history.mp4
