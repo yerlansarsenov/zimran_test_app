@@ -1,16 +1,14 @@
 package com.borred.zimran_test_app
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.compose.runtime.remember
 import androidx.lifecycle.viewModelScope
 import com.borred.zimran_test_app.auth.AuthScreenState
 import com.borred.zimran_test_app.auth.AuthorizationViewModel
@@ -18,6 +16,10 @@ import com.borred.zimran_test_app.auth.authorizeViaGithub
 import com.borred.zimran_test_app.error.ErrorsFlow
 import com.borred.zimran_test_app.ui.LoadingView
 import com.borred.zimran_test_app.ui.NotAuthorizedView
+import com.borred.zimran_test_app.ui.snackbar.MessageContent
+import com.borred.zimran_test_app.ui.snackbar.MessageSnackbar
+import com.borred.zimran_test_app.ui.snackbar.MessageType
+import com.borred.zimran_test_app.ui.snackbar.showSnackbarWithContent
 import com.borred.zimran_test_app.ui.theme.Zimran_test_appTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
@@ -57,13 +59,21 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                 }
-            }
-        }
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                errorsFlow.collectErrors { error ->
-                    error.printStackTrace()
-                    Toast.makeText(this@MainActivity, error.message, Toast.LENGTH_SHORT).show()
+                val snackbarHostState = remember { SnackbarHostState() }
+                MessageSnackbar(
+                    snackbarHostState = snackbarHostState
+                )
+                LaunchedEffect(Unit) {
+                    errorsFlow.collectErrors { error ->
+                        error.printStackTrace()
+                        snackbarHostState.showSnackbarWithContent(
+                            MessageContent(
+                                title = "Some error occured",
+                                subtitle = error.localizedMessage ?: "unknown",
+                                type = MessageType.Error
+                            )
+                        )
+                    }
                 }
             }
         }
