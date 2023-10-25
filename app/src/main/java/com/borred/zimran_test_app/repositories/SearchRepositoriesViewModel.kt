@@ -81,6 +81,9 @@ class SearchRepositoriesViewModel
         val text = _searchTextFlow.value
         val sort = _sortByFlow.value
         searchingJob?.cancel()
+        if (text.isEmpty()) {
+            return
+        }
         searchingJob = viewModelScope.safeLaunch {
             delay(200)
             _gitReposPaging.value = combine(
