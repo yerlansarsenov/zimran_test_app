@@ -39,7 +39,7 @@ fun UsersHistoryScreen(
                 HistoryState.Empty -> {
                     DisplayAndHeadline(
                         display = "Empty history",
-                        headline = "start searching repositories",
+                        headline = "start searching for users",
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
