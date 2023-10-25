@@ -5,6 +5,8 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +19,7 @@ import com.borred.zimran_test_app.error.ErrorsFlow
 import com.borred.zimran_test_app.ui.LoadingView
 import com.borred.zimran_test_app.ui.NotAuthorizedView
 import com.borred.zimran_test_app.ui.theme.Zimran_test_appTheme
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -33,6 +36,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Zimran_test_appTheme {
+                val uiController = rememberSystemUiController()
+                val backgroundColor = MaterialTheme.colorScheme.background
+                LaunchedEffect(backgroundColor, uiController) {
+                    uiController.setSystemBarsColor(backgroundColor)
+                }
                 when (viewModel.screenState.collectAsState().value) {
                     AuthScreenState.Loading -> LoadingView()
                     AuthScreenState.Main -> MainScreen(
@@ -40,7 +48,8 @@ class MainActivity : ComponentActivity() {
                             viewModel.viewModelScope.launch {
                                 errorsFlow.sendError(it)
                             }
-                        }
+                        },
+                        onLogOut = viewModel::onLogOut
                     )
                     AuthScreenState.NotAuthorized -> {
                         NotAuthorizedView(

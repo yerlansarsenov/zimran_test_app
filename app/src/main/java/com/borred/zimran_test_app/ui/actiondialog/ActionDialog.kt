@@ -144,7 +144,7 @@ private fun ActionSheetOption(
                     .weight(1F),
                 text = actionText,
                 color = actionTextColor,
-                fontSize = 16.sp,
+                fontSize = 24.sp,
                 textAlign = TextAlign.Start
             )
 
@@ -154,7 +154,7 @@ private fun ActionSheetOption(
                     contentDescription = null,
                     modifier = Modifier
                         .padding(end = 16.dp)
-                        .size(20.dp),
+                        .size(32.dp),
                     tint = actionTextColor
                 )
             }

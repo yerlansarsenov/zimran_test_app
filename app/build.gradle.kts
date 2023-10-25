@@ -102,6 +102,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
 
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
+
+    implementation("androidx.compose.material3:material3:1.2.0-alpha10")
+    implementation("androidx.compose.material3:material3-window-size-class:1.2.0-alpha10")
 }
 
 kapt {

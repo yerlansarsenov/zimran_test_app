@@ -28,14 +28,10 @@ import kotlinx.serialization.json.Json
 
 @Composable
 fun MainScreen(
-    onShowError: (Throwable) -> Unit
+    onShowError: (Throwable) -> Unit,
+    onLogOut: () -> Unit,
 ) {
     val navController = rememberNavController()
-    val uiController = rememberSystemUiController()
-    val backgroundColor = MaterialTheme.colorScheme.background
-    LaunchedEffect(backgroundColor, uiController) {
-        uiController.setSystemBarsColor(backgroundColor)
-    }
     NavHost(
         navController = navController,
         startDestination = MainScreenRoutes.Search.route,
@@ -43,12 +39,17 @@ fun MainScreen(
             MaterialTheme.colorScheme.background
         )
     ) {
-        mainScreenNavGraph(navController, onShowError)
+        mainScreenNavGraph(
+            navController = navController,
+            onShowError = onShowError,
+            onLogOut = onLogOut
+        )
     }
 }
 
 private fun NavGraphBuilder.mainScreenNavGraph(
     navController: NavHostController,
+    onLogOut: () -> Unit,
     onShowError: (Throwable) -> Unit
 ) {
     composable(
@@ -56,13 +57,13 @@ private fun NavGraphBuilder.mainScreenNavGraph(
         enterTransition = {
             slideInHorizontally(
                 animationSpec = tween(400),
-                initialOffsetX = { -it / 2 }
+                initialOffsetX = { it }
             )
         },
         exitTransition = {
             slideOutHorizontally(
                 animationSpec = tween(400),
-                targetOffsetX = { -it / 2 }
+                targetOffsetX = { -it }
             )
         }
     ) {
@@ -72,7 +73,8 @@ private fun NavGraphBuilder.mainScreenNavGraph(
             },
             onGoToUsers = {
                 navController.navigate(MainScreenRoutes.Users.route)
-            }
+            },
+            onLogOut = onLogOut
         )
     }
 
@@ -81,13 +83,13 @@ private fun NavGraphBuilder.mainScreenNavGraph(
         enterTransition = {
             slideInHorizontally(
                 animationSpec = tween(400),
-                initialOffsetX = { -it / 2 }
+                initialOffsetX = { it }
             )
         },
         exitTransition = {
             slideOutHorizontally(
                 animationSpec = tween(400),
-                targetOffsetX = { -it / 2 }
+                targetOffsetX = { -it }
             )
         }
     ) {
@@ -108,13 +110,13 @@ private fun NavGraphBuilder.mainScreenNavGraph(
         enterTransition = {
             slideInHorizontally(
                 animationSpec = tween(400),
-                initialOffsetX = { -it / 2 }
+                initialOffsetX = { it }
             )
         },
         exitTransition = {
             slideOutHorizontally(
                 animationSpec = tween(400),
-                targetOffsetX = { -it / 2 }
+                targetOffsetX = { -it }
             )
         }
     ) {
@@ -134,13 +136,13 @@ private fun NavGraphBuilder.mainScreenNavGraph(
         enterTransition = {
             slideInHorizontally(
                 animationSpec = tween(400),
-                initialOffsetX = { -it / 2 }
+                initialOffsetX = { it }
             )
         },
         exitTransition = {
             slideOutHorizontally(
                 animationSpec = tween(400),
-                targetOffsetX = { -it / 2 }
+                targetOffsetX = { -it }
             )
         }
     ) { backStackEntry ->
@@ -158,13 +160,13 @@ private fun NavGraphBuilder.mainScreenNavGraph(
         enterTransition = {
             slideInHorizontally(
                 animationSpec = tween(400),
-                initialOffsetX = { -it / 2 }
+                initialOffsetX = { it }
             )
         },
         exitTransition = {
             slideOutHorizontally(
                 animationSpec = tween(400),
-                targetOffsetX = { -it / 2 }
+                targetOffsetX = { -it }
             )
         }
     ) { backStackEntry ->
@@ -183,13 +185,13 @@ private fun NavGraphBuilder.mainScreenNavGraph(
         enterTransition = {
             slideInHorizontally(
                 animationSpec = tween(400),
-                initialOffsetX = { -it / 2 }
+                initialOffsetX = { it }
             )
         },
         exitTransition = {
             slideOutHorizontally(
                 animationSpec = tween(400),
-                targetOffsetX = { -it / 2 }
+                targetOffsetX = { -it }
             )
         }
     ) {
@@ -205,13 +207,13 @@ private fun NavGraphBuilder.mainScreenNavGraph(
         enterTransition = {
             slideInHorizontally(
                 animationSpec = tween(400),
-                initialOffsetX = { -it / 2 }
+                initialOffsetX = { it }
             )
         },
         exitTransition = {
             slideOutHorizontally(
                 animationSpec = tween(400),
-                targetOffsetX = { -it / 2 }
+                targetOffsetX = { -it }
             )
         }
     ) {

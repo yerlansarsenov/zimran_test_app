@@ -39,7 +39,7 @@ class GitUserPagingSource(
                 } else {
                     page - 1
                 },
-                nextKey = if (response.items.isEmpty()) {
+                nextKey = if (response.items.size < params.loadSize) {
                     null
                 } else {
                     page + 1

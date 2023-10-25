@@ -2,8 +2,11 @@ package com.borred.zimran_test_app.repositories
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -76,6 +79,7 @@ fun SearchRepositoriesScreen(
             )
         )
         if (searchText.isEmpty()) {
+            Spacer(modifier = Modifier.height(32.dp))
             DisplayAndHeadline(
                 display = "Start typing..",
                 headline = "What repository are you searching for?"

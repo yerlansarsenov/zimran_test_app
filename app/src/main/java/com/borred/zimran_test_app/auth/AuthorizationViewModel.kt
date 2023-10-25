@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.borred.ktor_client.local.auth.AccessTokenDataStore
 import com.borred.ktor_client.network.auth.GithubAuthApi
 import com.borred.zimran_test_app.error.ErrorsFlow
+import com.borred.zimran_test_app.safeLaunch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -45,6 +46,13 @@ class AuthorizationViewModel @Inject constructor(
                 accessTokenDataStore.setAccessToken(token)
                 _screenState.emit(AuthScreenState.Main)
             }
+        }
+    }
+
+    fun onLogOut() {
+        viewModelScope.safeLaunch {
+            accessTokenDataStore.setAccessToken(null)
+            _screenState.emit(AuthScreenState.NotAuthorized)
         }
     }
 }
