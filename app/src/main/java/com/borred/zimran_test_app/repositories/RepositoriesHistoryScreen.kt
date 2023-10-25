@@ -7,11 +7,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.borred.ktor_client.network.search.repos.model.GitRepository
+import com.borred.zimran_test_app.repositories.model.GitRepositoryUI
 
 @Composable
 fun RepositoriesHistoryScreen(
-    onGoToDetails: (GitRepository) -> Unit,
+    onGoToDetails: (GitRepositoryUI) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(

@@ -3,23 +3,24 @@ package com.borred.zimran_test_app.userrepos
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.borred.ktor_client.network.search.repos.SearchRepositoryApi
-import com.borred.ktor_client.network.search.repos.model.GitRepository
 import com.borred.ktor_client.network.search.repos.model.ReposSort
+import com.borred.zimran_test_app.repositories.model.GitRepositoryUI
+import com.borred.zimran_test_app.repositories.model.toUI
 
 class UserRepositoriesPagingSource(
     private val login: String,
     private val sort: ReposSort,
     private val repositoryApi: SearchRepositoryApi
-) : PagingSource<Int, GitRepository>() {
+) : PagingSource<Int, GitRepositoryUI>() {
 
-    override fun getRefreshKey(state: PagingState<Int, GitRepository>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, GitRepositoryUI>): Int? {
         return state.anchorPosition?.let {
             state.closestPageToPosition(it)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(it)?.nextKey?.minus(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, GitRepository> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, GitRepositoryUI> {
         val page = params.key ?: 1
         repositoryApi.getReposOfUserByLogin(
             login = login,
@@ -30,7 +31,7 @@ class UserRepositoriesPagingSource(
             return LoadResult.Error(it)
         }.onSuccess { items ->
             return LoadResult.Page(
-                data = items,
+                data = items.map { it.toUI() },
                 prevKey = if (page == 1) {
                     null
                 } else {

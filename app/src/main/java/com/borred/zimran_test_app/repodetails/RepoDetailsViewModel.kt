@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.borred.ktor_client.network.search.repos.SearchRepositoryApi
 import com.borred.ktor_client.network.search.repos.model.GitRepository
 import com.borred.zimran_test_app.error.ErrorsFlow
+import com.borred.zimran_test_app.repositories.model.GitRepositoryUI
 import com.borred.zimran_test_app.safeLaunch
 import com.borred.zimran_test_app.ui.SpecialCharsMap
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,7 +34,7 @@ class RepoDetailsViewModel @Inject constructor(
         SpecialCharsMap.forEach { (value, key) ->
             str = str.replace(value, key)
         }
-        Json.decodeFromString<GitRepository>(str)
+        Json.decodeFromString<GitRepositoryUI>(str)
     }
 
     private val _langsState = mutableStateOf<LangState>(LangState.Loading)

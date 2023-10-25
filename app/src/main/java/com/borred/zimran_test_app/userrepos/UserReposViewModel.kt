@@ -15,6 +15,7 @@ import com.borred.ktor_client.network.search.repos.SearchRepositoryApi
 import com.borred.ktor_client.network.search.repos.model.GitRepository
 import com.borred.ktor_client.network.search.repos.model.ReposSort
 import com.borred.ktor_client.network.search.users.model.GitUser
+import com.borred.zimran_test_app.repositories.model.GitRepositoryUI
 import com.borred.zimran_test_app.safeLaunch
 import com.borred.zimran_test_app.ui.SpecialCharsMap
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -57,10 +58,10 @@ class UserReposViewModel @Inject constructor(
         initialLoadSize = 30
     )
 
-    private val _gitReposPaging: MutableState<Flow<PagingData<GitRepository>>> = mutableStateOf(
+    private val _gitReposPaging: MutableState<Flow<PagingData<GitRepositoryUI>>> = mutableStateOf(
         getPagingFlow(login, _sortByFlow.value)
     )
-    val gitReposPaging: State<Flow<PagingData<GitRepository>>> = _gitReposPaging
+    val gitReposPaging: State<Flow<PagingData<GitRepositoryUI>>> = _gitReposPaging
 
     fun setSortBy(sort: ReposSort) {
         _sortByFlow.value = sort
@@ -79,7 +80,7 @@ class UserReposViewModel @Inject constructor(
     private fun getPagingFlow(
         login: String,
         sort: ReposSort
-    ): Flow<PagingData<GitRepository>> {
+    ): Flow<PagingData<GitRepositoryUI>> {
         return Pager(
             config = pagingConfig
         ) {

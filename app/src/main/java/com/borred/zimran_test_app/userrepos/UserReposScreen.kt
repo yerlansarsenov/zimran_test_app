@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.borred.ktor_client.network.search.repos.model.GitRepository
+import com.borred.zimran_test_app.repositories.model.GitRepositoryUI
 import com.borred.zimran_test_app.ui.GitRepositoryView
 import com.borred.zimran_test_app.ui.Header
 import com.borred.zimran_test_app.ui.PagingLazyColumn
@@ -22,7 +23,7 @@ import com.borred.zimran_test_app.ui.SortKindDialog
 
 @Composable
 fun UserReposScreen(
-    onGoToDetails: (GitRepository) -> Unit,
+    onGoToDetails: (GitRepositoryUI) -> Unit,
     onShowError: (Throwable) -> Unit,
     modifier: Modifier = Modifier
 ) {

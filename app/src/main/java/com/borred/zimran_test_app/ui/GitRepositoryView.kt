@@ -1,5 +1,6 @@
 package com.borred.zimran_test_app.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,23 +20,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.borred.ktor_client.network.search.repos.model.GitRepository
 import com.borred.zimran_test_app.prettyNumber
 import com.borred.zimran_test_app.repositories.format
+import com.borred.zimran_test_app.repositories.model.GitRepositoryUI
 
 @Composable
 fun GitRepositoryView(
-    item: GitRepository,
+    item: GitRepositoryUI,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
+            .composed {
+                if (item.isSeen) {
+                    background(seenColor)
+                } else this
+            }
     ) {
         Row(
             modifier = Modifier

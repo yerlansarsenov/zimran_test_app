@@ -2,8 +2,11 @@ package com.borred.zimran_test_app.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
@@ -25,6 +28,7 @@ fun <T : Any> PagingLazyColumn(
         }
     }
     LazyColumn(
+        state = paginatedListItems.rememberLazyListState2(),
         modifier = modifier.fillMaxSize()
     ) {
         val itemCount = paginatedListItems.itemCount
@@ -69,5 +73,18 @@ fun <T : Any> PagingLazyColumn(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun <T : Any> LazyPagingItems<T>.rememberLazyListState2(): LazyListState {
+    // After recreation, LazyPagingItems first return 0 items, then the cached items.
+    // This behavior/issue is resetting the LazyListState scroll position.
+    // Below is a workaround. More info<https://issuetracker.google.com/issues/177245496>.
+    return when (itemCount) {
+        // Return a different LazyListState instance.
+        0 -> remember(this) { LazyListState(0, 0) }
+        // Return rememberLazyListState (normal case).
+        else -> rememberLazyListState()
     }
 }
