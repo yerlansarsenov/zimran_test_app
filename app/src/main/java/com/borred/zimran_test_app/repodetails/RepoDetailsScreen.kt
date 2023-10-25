@@ -33,19 +33,19 @@ import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.borred.ktor_client.network.search.users.model.GitUser
 import com.borred.zimran_test_app.repositories.format
 import com.borred.zimran_test_app.ui.AuthorInfo
 import com.borred.zimran_test_app.ui.DefinitionAndInfoRow
 import com.borred.zimran_test_app.ui.Header
 import com.borred.zimran_test_app.ui.animateShimmerColor
+import com.borred.zimran_test_app.users.model.GitUserUI
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.persistentMapOf
 import kotlin.random.Random
 
 @Composable
 fun RepoDetailsScreen(
-    onGoToUserRepos: (GitUser) -> Unit,
+    onGoToUserRepos: (GitUserUI) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val viewModel = hiltViewModel<RepoDetailsViewModel>()
@@ -69,7 +69,10 @@ fun RepoDetailsScreen(
                     color = Color.Black,
                     shape = authorCardShape
                 )
-                .clickable { onGoToUserRepos(gitRepository.owner) }
+                .clickable {
+                    viewModel.addUserToHistory(gitRepository.owner)
+                    onGoToUserRepos(gitRepository.owner)
+                }
         ) {
             AuthorInfo(owner = gitRepository.owner)
         }

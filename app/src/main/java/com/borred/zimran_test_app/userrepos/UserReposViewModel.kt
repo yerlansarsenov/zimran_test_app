@@ -12,12 +12,11 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.borred.ktor_client.network.search.repos.SearchRepositoryApi
-import com.borred.ktor_client.network.search.repos.model.GitRepository
 import com.borred.ktor_client.network.search.repos.model.ReposSort
-import com.borred.ktor_client.network.search.users.model.GitUser
 import com.borred.zimran_test_app.repositories.model.GitRepositoryUI
 import com.borred.zimran_test_app.safeLaunch
 import com.borred.zimran_test_app.ui.SpecialCharsMap
+import com.borred.zimran_test_app.users.model.GitUserUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -42,7 +41,7 @@ class UserReposViewModel @Inject constructor(
         SpecialCharsMap.forEach { (value, key) ->
             str = str.replace(value, key)
         }
-        val _object = Json.decodeFromString<GitUser>(str)
+        val _object = Json.decodeFromString<GitUserUI>(str)
         Log.e("HERE!!", "UserReposViewModel: _object = $_object")
         _object
     }

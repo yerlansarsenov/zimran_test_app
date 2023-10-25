@@ -10,10 +10,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -28,17 +26,17 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.borred.ktor_client.network.search.users.model.GitUser
 import com.borred.zimran_test_app.ui.AuthorInfo
 import com.borred.zimran_test_app.ui.DisplayAndHeadline
 import com.borred.zimran_test_app.ui.Header
 import com.borred.zimran_test_app.ui.PagingLazyColumn
 import com.borred.zimran_test_app.ui.SortKindDialog
+import com.borred.zimran_test_app.users.model.GitUserUI
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SearchUsersScreen(
-    onGoToUserRepos: (GitUser) -> Unit,
+    onGoToUserRepos: (GitUserUI) -> Unit,
     onGoToHistory: () -> Unit,
     onShowError: (Throwable) -> Unit,
     modifier: Modifier = Modifier
@@ -87,7 +85,10 @@ fun SearchUsersScreen(
                 AuthorInfo(
                     owner = item,
                     modifier = Modifier
-                        .clickable { onGoToUserRepos(item) }
+                        .clickable {
+                            viewModel.addUserToHistory(item)
+                            onGoToUserRepos(item)
+                        }
                 )
                 Divider()
             }

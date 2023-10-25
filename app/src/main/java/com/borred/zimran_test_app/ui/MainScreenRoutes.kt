@@ -1,8 +1,8 @@
 package com.borred.zimran_test_app.ui
 
 import android.util.Log
-import com.borred.ktor_client.network.search.users.model.GitUser
 import com.borred.zimran_test_app.repositories.model.GitRepositoryUI
+import com.borred.zimran_test_app.users.model.GitUserUI
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -21,7 +21,7 @@ sealed class MainScreenRoutes(val route: String) {
 
     object UserRepos : MainScreenRoutes("user/repositories?user={user}") {
 
-        fun destinationRoute(user: GitUser): String {
+        fun destinationRoute(user: GitUserUI): String {
             var str = Json.encodeToString(user)
             SpecialCharsMap.forEach {
                 str = str.replace(it.key, it.value)

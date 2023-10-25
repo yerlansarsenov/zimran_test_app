@@ -26,13 +26,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.borred.ktor_client.network.search.users.model.GitUser
 import com.borred.zimran_test_app.repositories.model.GitRepositoryUI
 import com.borred.zimran_test_app.ui.DisplayAndHeadline
 import com.borred.zimran_test_app.ui.GitRepositoryView
 import com.borred.zimran_test_app.ui.Header
 import com.borred.zimran_test_app.ui.PagingLazyColumn
 import com.borred.zimran_test_app.ui.SortKindDialog
+import com.borred.zimran_test_app.users.model.GitUserUI
 import kotlinx.datetime.Clock
 import kotlin.time.Duration.Companion.days
 
@@ -118,10 +118,11 @@ private fun GitRepositoryView_Preview() {
             forksCount = 32,
             stargazersCount = 324,
             openIssuesCount = 321,
-            owner = GitUser(
+            owner = GitUserUI(
                 id = 0,
                 login = "YerlanSarsenov",
-                avatarUrl = ""
+                avatarUrl = "",
+                isSeen = false
             ),
             isSeen = false
         ),

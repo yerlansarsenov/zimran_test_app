@@ -12,11 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.borred.ktor_client.network.search.users.model.GitUser
+import com.borred.zimran_test_app.users.model.GitUserUI
 
 @Composable
 fun AuthorInfo(
-    owner: GitUser,
+    owner: GitUserUI,
     modifier: Modifier = Modifier
 ) {
     Row(

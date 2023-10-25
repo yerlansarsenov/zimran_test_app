@@ -2,7 +2,9 @@ package com.borred.zimran_test_app.repositories.model
 
 import androidx.compose.runtime.Stable
 import com.borred.ktor_client.network.search.repos.model.GitRepository
-import com.borred.ktor_client.network.search.users.model.GitUser
+import com.borred.zimran_test_app.users.model.GitUserUI
+import com.borred.zimran_test_app.users.model.toDomain
+import com.borred.zimran_test_app.users.model.toUI
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 
@@ -18,7 +20,7 @@ data class GitRepositoryUI(
     val forksCount: Int,
     val stargazersCount: Int,
     val openIssuesCount: Int,
-    val owner: GitUser,
+    val owner: GitUserUI,
     val isSeen: Boolean
 )
 
@@ -33,7 +35,7 @@ fun GitRepository.toUI(isSeen: Boolean = false): GitRepositoryUI {
         forksCount = forksCount,
         stargazersCount = stargazersCount,
         openIssuesCount = openIssuesCount,
-        owner = owner,
+        owner = owner.toUI(),
         isSeen = isSeen
     )
 }
@@ -49,6 +51,6 @@ fun GitRepositoryUI.toDomain(): GitRepository {
         forksCount = forksCount,
         stargazersCount = stargazersCount,
         openIssuesCount = openIssuesCount,
-        owner = owner,
+        owner = owner.toDomain(),
     )
 }

@@ -8,15 +8,16 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.borred.ktor_client.network.search.repos.SearchRepositoryApi
-import com.borred.ktor_client.network.search.repos.model.GitRepository
+import com.borred.ktor_client.network.search.users.UsersHistoryDataStore
 import com.borred.zimran_test_app.error.ErrorsFlow
 import com.borred.zimran_test_app.repositories.model.GitRepositoryUI
 import com.borred.zimran_test_app.safeLaunch
 import com.borred.zimran_test_app.ui.SpecialCharsMap
+import com.borred.zimran_test_app.users.model.GitUserUI
+import com.borred.zimran_test_app.users.model.toDomain
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.toImmutableMap
-import kotlinx.coroutines.delay
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
@@ -24,7 +25,8 @@ import javax.inject.Inject
 class RepoDetailsViewModel @Inject constructor(
     private val repositoryApi: SearchRepositoryApi,
     savedStateHandle: SavedStateHandle,
-    errorsFlow: ErrorsFlow
+    errorsFlow: ErrorsFlow,
+    private val usersHistoryDataStore: UsersHistoryDataStore
 ) : ViewModel() {
 
     private val repoJson = savedStateHandle.get<String>("repo") ?: ""
@@ -58,6 +60,12 @@ class RepoDetailsViewModel @Inject constructor(
                     it.toImmutableMap()
                 )
             }
+        }
+    }
+
+    fun addUserToHistory(user: GitUserUI) {
+        viewModelScope.safeLaunch {
+            usersHistoryDataStore.addToHistory(user.toDomain())
         }
     }
 }
